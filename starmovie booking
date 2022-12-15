@@ -19,7 +19,7 @@ public class starmovieBooking {
         } catch(InterruptedException e) {
             System.out.println("INTERRUPTED ERROR");
         }
-        
+
 
 
             System.out.println("\n                   WELCOME TO STARMOVIE!");
@@ -27,7 +27,7 @@ public class starmovieBooking {
             System.out.println("\n|        ROOM         |    RATES    |      CAPACITY      |");
             System.out.println("----------------------------------------------------------");
             System.out.println("| 1. Couple Room      |  ₱125/head  |  Up to 2 persons   |");
-            System.out.println("| 2. Family Room     |  ₱100/head  |  Up to 5 persons    |");
+            System.out.println("| 2. Family Room      |  ₱100/head  |  Up to 5 persons   |");
             System.out.println("| 3. Barkadahan Room  |  ₱75/head   |  Up to 10 persons  |");
             //creates a loop if conditions met is true
             while (true) {
