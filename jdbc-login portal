@@ -1,0 +1,210 @@
+import java.sql.*;
+import java.util.Scanner;
+
+public class miniFb_2 {
+
+    static final String databaseURL = "jdbc:mysql://localhost:3306/jdbc-database";
+    static final String username = "root";
+    static final String password = "toor";
+
+    public static void main(String[] args) {
+        Scanner sc3 = new Scanner(System.in);
+        System.out.println("      WELCOME TO G-Posts");
+        System.out.println();
+        System.out.println("| 1. LOGIN   |");
+        System.out.println("| 2. SIGNUP  |");
+        System.out.print("Would you like to Login or Create an Account? (1/2): ");
+        int answer = sc3.nextInt();
+        switch (answer) {
+            case 1:
+                try {
+                    Connection con = DriverManager.getConnection(databaseURL, username, password);
+                    Statement st = con.createStatement();
+                    ResultSet rs = st.executeQuery("select * from mini_fb");
+                    String[] userNameList = new String[100];
+                    String[] passWordList = new String[100];
+                    int id = 0;
+                    while(rs.next()) {
+                        userNameList[id] = rs.getString("username");
+                        passWordList[id] = rs.getString("password");
+                        id++;
+                    }
+                    System.out.println("      WELCOME TO G-Posts");
+
+                    boolean boolUserLoop = false;
+                    String userName = " ";
+                    while (!boolUserLoop) {
+
+                        System.out.println();
+                        System.out.print("USERNAME: ");
+                        userName = sc3.nextLine();
+
+                        boolean boolUserValidator = false;
+                        String[] newUserNameList = new String[100];
+                        String [] newPassWordList = new String[100];
+                        for (int i = 0; i < userNameList.length; i++) {
+                            if (userName.equals(userNameList[i])) {
+                                boolUserValidator = true;
+                                break;
+                            }
+                        }
+                        if (boolUserValidator) {
+                            boolUserLoop = true;
+                        } else {
+                            System.out.println("No matching credentials");
+                            System.out.println();
+                        }
+
+                    }
+
+                    boolean boolPassLoop = false;
+                    while (!boolPassLoop) {
+                        System.out.print("PASSWORD: ");
+                        String passWord = sc3.nextLine();
+                        boolean boolPassValidator = false;
+
+                        for (int j = 0; j < passWordList.length; j++) {
+                            if (passWord.equals(passWordList[j]) && userName.equals(userNameList[j])) {
+                                boolPassValidator = true;
+                                break;
+                            }
+                        }
+                        if (boolPassValidator) {
+                            System.out.println();
+                            System.out.println("    YOU HAVE SUCCESSFULLY LOGGED IN!");
+                            boolPassLoop = true;
+                        } else {
+                            System.out.println("Invalid Password!");
+                            System.out.println();
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Server Error");
+                    e.printStackTrace();
+                }
+
+            case 2:
+                Scanner sc2 = new Scanner(System.in);
+                System.out.println();
+                System.out.println("      CREATE AN ACCOUNT");
+                System.out.println();
+                System.out.print("First Name: ");
+                String firstName = sc2.nextLine();
+                System.out.print("Last Name: ");
+                String lastName = sc2.nextLine();
+                System.out.print("Username: ");
+                String newUsername = sc2.nextLine();
+
+                String newPassword = "";
+                boolean boolNewPassword = false;
+                while(!boolNewPassword) {
+                    System.out.print("Password: ");
+                    newPassword = sc2.nextLine();
+                    if (newPassword.matches(".*\\d.*") && newPassword.length() > 8) {
+                        boolNewPassword = true;
+                    } else {
+                        System.out.println("Password should contain 8 alphanumerical characters");
+                        System.out.println();
+                    }
+                }
+                System.out.println();
+                System.out.print("Creating Account");
+                try {
+                    for (int i = 0; i < 3; i++) {
+                        Thread.sleep(500);
+                        System.out.print(".");
+                    }
+                } catch (InterruptedException e) {
+                    System.out.println("ERROR");
+                    e.printStackTrace();
+                }
+
+                int id = 0;
+                try {
+                    Connection con = DriverManager.getConnection(databaseURL, username, password);
+                    Statement st = con.createStatement();
+                    String addAccount = "INSERT INTO mini_fb VALUES (\"" + id + "\",\"" + firstName.toUpperCase() + "\",\"" +
+                            lastName.toUpperCase() + "\",\"" + newUsername + "\",\"" + newPassword + "\")";
+                    int val = st.executeUpdate(addAccount);
+
+                } catch (Exception e) {
+                    System.out.println("Server Error");
+                    e.printStackTrace();
+                }
+                try {
+                    Connection con = DriverManager.getConnection(databaseURL, username, password);
+                    Statement st = con.createStatement();
+                    ResultSet rs = st.executeQuery("select * from mini_fb");
+                    String[] userNameList = new String[100];
+                    String[] passWordList = new String[100];
+                    int id2 = 0;
+                    while(rs.next()) {
+                        userNameList[id2] = rs.getString("username");
+                        passWordList[id2] = rs.getString("password");
+                        id2++;
+                    }
+                    System.out.println();
+                    System.out.println();
+                    System.out.println("      WELCOME TO G-Posts");
+
+                    boolean boolUserLoop = false;
+                    String userName = "";
+                    while (!boolUserLoop) {
+
+                        System.out.println();
+                        System.out.print("USERNAME: ");
+                        userName = sc2.nextLine();
+
+                        boolean boolUserValidator = false;
+                        String[] newUserNameList = new String[100];
+                        String [] newPassWordList = new String[100];
+                        for (int i = 0; i < userNameList.length; i++) {
+                            if (userName.equals(userNameList[i])) {
+                                boolUserValidator = true;
+                                break;
+                            }
+                        }
+                        if (boolUserValidator) {
+                            boolUserLoop = true;
+                        } else {
+                            System.out.println("No matching credentials");
+                            System.out.println();
+                        }
+
+                    }
+
+                    boolean boolPassLoop = false;
+                    while (!boolPassLoop) {
+                        System.out.print("PASSWORD: ");
+                        String passWord = sc2.nextLine();
+                        boolean boolPassValidator = false;
+
+                        for (int j = 0; j < passWordList.length; j++) {
+                            if (passWord.equals(passWordList[j]) && userName.equals(userNameList[j])) {
+                                boolPassValidator = true;
+                                break;
+                            }
+                        }
+                        if (boolPassValidator) {
+                            System.out.println();
+                            System.out.println("    YOU HAVE SUCCESSFULLY LOGGED IN!");
+                            boolPassLoop = true;
+                        } else {
+                            System.out.println("Invalid Password!");
+                            System.out.println();
+                        }
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Server Error");
+                    e.printStackTrace();
+                }
+
+                break;
+            default:
+                System.out.println("1 and 2 only!");
+        }
+
+    }
+
+}
